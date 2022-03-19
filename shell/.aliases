@@ -1,0 +1,46 @@
+
+#composer aliases
+alias ci="composer install"
+alias cu="composer update"
+alias co="composer dump-autoload"
+alias c="composer"
+alias cr="composer require"
+
+#php aliases
+alias m="php artisan migrate"
+alias s="php artisan db:seed"
+alias ms="php artisan make:seeder"
+alias pc="php artisan optimize:clear"
+alias mm="php artisan make:migration"
+alias mo="php artisan make:model"
+alias a="php artisan"
+alias p="php"
+alias sail='bash vendor/bin/sail'
+
+#git aliases
+alias gc="git checkout"
+alias gpl="git pull origin"
+alias gps="git push origin"
+alias gs="git status"
+alias g="git"
+alias gss="git stash save"
+alias nah="git reset --hard;git clean -df"
+alias neh="git reset --soft HEAD~1"
+alias gpo="git push origin"
+alias gss="git stash save"
+alias gsl="git stash list"
+alias gsp="git stash pop"
+
+# PhpStorm
+alias phpstorm='open -a /Applications/PhpStorm.app "`pwd`"'
+
+# VSCode
+alias code='open -a "/Applications/Visual Studio Code.app" "`pwd`"'
+
+# Enable aliases to be sudo’ed
+alias sudo='sudo '
+
+# Fast open
+alias o="open ."
+
+alias flushdns="sudo killall -HUP mDNSResponder;"

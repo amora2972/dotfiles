@@ -1,0 +1,149 @@
+#!/bin/bash
+
+# Hide "last login" line when starting a new terminal session
+touch $HOME/.hushlogin
+
+# Install zsh
+echo 'Install oh-my-zsh'
+echo '-----------------'
+rm -rf $HOME/.oh-my-zsh
+curl -L https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+
+# Add global gitignore
+ln -s $HOME/.dotfiles/git/.global-gitignore $HOME/.global-gitignore
+git config --global core.excludesfile $HOME/.global-gitignore
+
+# Symlink zsh prefs
+rm $HOME/.zshrc
+ln -s $HOME/.dotfiles/shell/.zshrc $HOME/.zshrc
+
+# Activate z
+# cd ~/.dotfiles/shell
+# chmod +x z.sh
+
+echo 'Configure npm'
+echo '-------------'
+# Create a directory for global packages and tell npm where to store globally installed packages
+mkdir "${HOME}/.npm-packages"
+npm config set prefix "${HOME}/.npm-packages"
+
+echo 'Install homebrew'
+echo '----------------'
+echo install homebrew
+sudo rm -rf /usr/local/Cellar /usr/local/.git && brew cleanup
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/freek/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+echo 'Install node'
+echo '------------'
+brew install node
+
+echo 'Install pkg-config'
+echo '------------------'
+brew install pkg-config
+
+echo 'Install httpie'
+echo '--------------'
+brew install httpie
+
+echo 'Install ncdu'
+echo '------------'
+brew install ncdu
+
+echo 'Install hub'
+echo '-----------'
+brew install hub
+
+echo 'Install ack'
+echo '-----------'
+brew install ack
+
+echo 'Install doctl'
+echo '-------------'
+brew install doctl
+
+
+echo 'Install some nice quicklook plugins'
+echo '-----------------------------------'
+brew install --cask qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzip  suspicious-package
+
+echo 'Install php'
+echo '-----------'
+brew tap shivammathur/php
+brew install shivammathur/php/php@8.1
+brew link --overwrite --force php@8.1
+
+echo 'Install composer'
+echo '----------------'
+EXPECTED_COMPOSER_CHECKSUM="$(curl https://composer.github.io/installer.sig)"
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+ACTUAL_COMPOSER_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+if [ "$EXPECTED_COMPOSER_CHECKSUM" != "$ACTUAL_COMPOSER_CHECKSUM" ]
+then
+    >&2 echo 'ERROR: Invalid installer checksum'
+    rm composer-setup.php
+    exit 1
+fi
+php composer-setup.php
+rm composer-setup.php
+sudo mkdir /usr/local/bin/
+sudo mv composer.phar /usr/local/bin/composer
+
+echo 'Install imagemagick'
+echo '-------------------'
+brew install imagemagick
+
+echo 'Install imagick'
+echo '---------------'
+pecl install imagick
+
+echo 'Install redis'
+echo '-------------'
+pecl install redis
+
+echo 'Install laravel valet'
+echo '---------------------'
+composer global require laravel/valet
+valet install
+
+echo 'Install mysql'
+echo '-------------'
+brew install mysql
+brew services start mysql
+
+echo 'Install yarn'
+echo '------------'
+brew install yarn
+
+echo 'Install ghostscript'
+echo '-------------------'
+brew install ghostscript
+
+echo 'Install mackup'
+echo '--------------'
+brew install mackup
+
+echo 'Install zsh-autosuggestions'
+echo '---------------------------'
+git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/plugins/zsh-autosuggestions
+
+
+echo 'Install zsh-syntax-highlighting'
+echo '---------------------------'
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+
+echo '++++++++++++++++++++++++++++++'
+echo '++++++++++++++++++++++++++++++'
+echo 'All done!'
+echo '1. Install menlo patched font included in ~/.dotfiles/misc https://gist.github.com/qrush/1595572/raw/Menlo-Powerline.otf'
+
+echo '++++++++++++++++++++++++++++++'
+echo 'Some optional tidbits'
+
+echo '1. Set some sensible os x defaults by running: $HOME/.dotfiles/macos/set-defaults.sh'
+echo '2. Make a .dotfiles-custom/shell/.aliases for your personal commands'
+
+echo '++++++++++++++++++++++++++++++'
+echo '++++++++++++++++++++++++++++++'

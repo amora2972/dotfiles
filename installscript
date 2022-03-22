@@ -32,37 +32,12 @@ echo '----------------'
 echo install homebrew
 sudo rm -rf /usr/local/Cellar /usr/local/.git && brew cleanup
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/freek/.zprofile
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/omar/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 echo 'Install node'
 echo '------------'
 brew install node
-
-echo 'Install pkg-config'
-echo '------------------'
-brew install pkg-config
-
-echo 'Install httpie'
-echo '--------------'
-brew install httpie
-
-echo 'Install ncdu'
-echo '------------'
-brew install ncdu
-
-echo 'Install hub'
-echo '-----------'
-brew install hub
-
-echo 'Install ack'
-echo '-----------'
-brew install ack
-
-echo 'Install doctl'
-echo '-------------'
-brew install doctl
-
 
 echo 'Install some nice quicklook plugins'
 echo '-----------------------------------'
@@ -94,17 +69,14 @@ echo 'Install imagemagick'
 echo '-------------------'
 brew install imagemagick
 
-echo 'Install imagick'
-echo '---------------'
-pecl install imagick
-
 echo 'Install redis'
 echo '-------------'
-pecl install redis
+brew install redis
 
 echo 'Install laravel valet'
 echo '---------------------'
 composer global require laravel/valet
+export PATH=$PATH:~/.composer/vendor/bin
 valet install
 
 echo 'Install mysql'
@@ -116,14 +88,6 @@ echo 'Install yarn'
 echo '------------'
 brew install yarn
 
-echo 'Install ghostscript'
-echo '-------------------'
-brew install ghostscript
-
-echo 'Install mackup'
-echo '--------------'
-brew install mackup
-
 echo 'Install zsh-autosuggestions'
 echo '---------------------------'
 git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/plugins/zsh-autosuggestions
@@ -133,6 +97,9 @@ echo 'Install zsh-syntax-highlighting'
 echo '---------------------------'
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
+echo 'Install mailhog'
+echo '---------------------------'
+brew install mailhog
 
 echo '++++++++++++++++++++++++++++++'
 echo '++++++++++++++++++++++++++++++'

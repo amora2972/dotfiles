@@ -96,16 +96,21 @@ echo 'Install mailhog'
 echo '---------------------------'
 brew install mailhog
 
+
+echo 'Install iterm2'
+echo '---------------------------'
+brew install --cask iterm2
+
 echo '++++++++++++++++++++++++++++++'
 echo '++++++++++++++++++++++++++++++'
 echo 'All done!'
 echo '1. Install menlo patched font included in ~/.dotfiles/misc https://gist.github.com/qrush/1595572/raw/Menlo-Powerline.otf'
+echo '2. Import ayu theme to iterm2'
 
 echo '++++++++++++++++++++++++++++++'
-echo 'Some optional tidbits'
+echo 'Optional Steps'
 
-echo '1. Set some sensible os x defaults by running: $HOME/.dotfiles/macos/set-defaults.sh'
-echo '2. Make a .dotfiles-custom/shell/.aliases for your personal commands'
+echo '1. Make a .dotfiles-custom/shell/.aliases for your personal commands'
 
 echo '++++++++++++++++++++++++++++++'
 echo '++++++++++++++++++++++++++++++'

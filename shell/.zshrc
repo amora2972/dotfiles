@@ -30,7 +30,5 @@ unset file
 # export PATH
 export PATH=${PATH}:/usr/local/mysql/bin/
 
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

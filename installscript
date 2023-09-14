@@ -1,0 +1,101 @@
+#!/bin/bash
+
+# Hide "last login" line when starting a new terminal session
+touch $HOME/.hushlogin
+
+# Install zsh
+echo 'Install oh-my-zsh'
+echo '-----------------'
+rm -rf $HOME/.oh-my-zsh
+curl -L https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+
+# Add global gitignore
+ln -s $HOME/.dotfiles/git/.global-gitignore $HOME/.global-gitignore
+git config --global core.excludesfile $HOME/.global-gitignore
+
+# Symlink zsh prefs
+rm $HOME/.zshrc
+ln -s $HOME/.dotfiles/shell/.zshrc $HOME/.zshrc
+
+# clone powerlevel10k theme
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+echo 'Install homebrew'
+echo '----------------'
+echo install homebrew
+sudo rm -rf /usr/local/Cellar /usr/local/.git && brew cleanup
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/omar/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+echo 'Install nvm'
+brew uninstall node
+brew install nvm
+nvm install --lts
+
+echo 'Install php'
+echo '-----------'
+brew tap shivammathur/php
+brew install shivammathur/php/php@8.2
+brew link --overwrite --force php@8.2
+
+echo 'Install composer'
+echo '----------------'
+EXPECTED_COMPOSER_CHECKSUM="$(curl https://composer.github.io/installer.sig)"
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+ACTUAL_COMPOSER_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+if [ "$EXPECTED_COMPOSER_CHECKSUM" != "$ACTUAL_COMPOSER_CHECKSUM" ]
+then
+    >&2 echo 'ERROR: Invalid installer checksum'
+    rm composer-setup.php
+    exit 1
+fi
+php composer-setup.php
+rm composer-setup.php
+sudo mkdir /usr/local/bin/
+sudo mv composer.phar /usr/local/bin/composer
+
+echo 'Install redis'
+echo '-------------'
+brew install redis
+
+# echo 'Install laravel valet'
+# echo '---------------------'
+# composer global require laravel/valet
+# export PATH=$PATH:~/.composer/vendor/bin
+# valet install
+
+echo 'Install mysql'
+echo '-------------'
+brew install mysql
+brew services start mysql
+
+echo 'Install yarn'
+echo '------------'
+brew install yarn
+
+echo 'Install zsh-autosuggestions'
+echo '---------------------------'
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+
+echo 'Install zsh-syntax-highlighting'
+echo '---------------------------'
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+echo 'Install mailhog'
+echo '---------------------------'
+brew install mailhog
+
+
+echo 'Install iterm2'
+echo '---------------------------'
+brew install --cask iterm2
+
+echo '++++++++++++++++++++++++++++++'
+echo '++++++++++++++++++++++++++++++'
+
+echo 'Make a .dotfiles-custom/shell/.aliases for your personal commands'
+
+echo '++++++++++++++++++++++++++++++'
+echo '++++++++++++++++++++++++++++++'
